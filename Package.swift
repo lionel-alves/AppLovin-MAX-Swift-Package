@@ -1,4 +1,4 @@
-// swift-tools-version:5.3
+// swift-tools-version:5.5
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -6,19 +6,34 @@ import PackageDescription
 let package = Package(
     name: "AppLovinSDK",
     defaultLocalization: "en",
+    platforms: [.iOS(.v15)],
     products: [
         .library(
             name: "AppLovinSDK",
-            targets: ["AppLovinSDKResources"]
+            targets: ["AppLovinSDKResources", "AppLovinMediationGoogleAdapter", "GoogleMobileAds"]
         ),
+//        .library(
+//            name: "AppLovinMediationGoogleAdapter",
+//            targets: ["AppLovinMediationGoogleAdapter"]
+//        ),
+//        .library(
+//            name: "GoogleMobileAds",
+//            targets: ["GoogleMobileAds"]
+//        )
     ],
-    dependencies: [],
+//    dependencies: [
+//        .package(
+////            name: "GoogleMobileAds",
+//            url: "https://github.com/googleads/swift-package-manager-google-mobile-ads.git",
+//            revision: "10.14.0"
+//        ),
+//    ],
     targets: [
         // This is a wrapper target to configure various settings and resources required by main binary target.
         .target(
             name: "AppLovinSDKResources",
             dependencies: [
-                .target(name: "AppLovinSDK")
+                .target(name: "AppLovinSDK"),
             ],
             resources: [
                 .process("AppLovinSDKResources.bundle")
@@ -48,9 +63,19 @@ let package = Package(
             ]
         ),
         .binaryTarget(
+            name: "GoogleMobileAds",
+            url: "https://dl.google.com/googleadmobadssdk/4a6713c8d4ac7656/googlemobileadsios-spm-10.14.0.zip",
+            checksum: "4a6713c8d4ac765635c8972931b1fb2b5729a6a40dd01a1a50aeaf4ca5c28e15"
+        ),
+        .binaryTarget(
             name: "AppLovinSDK",
             url: "https://artifacts.applovin.com/ios/com/applovin/applovin-sdk/AppLovinSDK-12.1.0.xcframework.zip",
             checksum: "7234b80f4740499b557341cd727ecbf76a3098f144ac3bdccee5ec71fb8a0691"
+        ),
+        .binaryTarget(
+            name: "AppLovinMediationGoogleAdapter",
+            url: "https://artifacts.applovin.com/ios/com/applovin/mediation/google-adapter/AppLovinMediationGoogleAdapter-10.14.0.1.zip",
+            checksum: "0464eb1d7fa83aac0eec73784b37b110e81460df63297df2325f21554d7942fd"
         )
     ]
 )
